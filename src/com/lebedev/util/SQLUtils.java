@@ -25,6 +25,10 @@ public final class SQLUtils {
             shedule_id = ?
             WHERE id = ?;
             """;
+    public static final String DELETE = """
+            DELETE FROM fitness_club_db.traning
+            WHERE id = ?;
+            """;
 
     private SQLUtils() {
     }

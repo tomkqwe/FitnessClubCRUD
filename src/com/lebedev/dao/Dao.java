@@ -13,5 +13,5 @@ public interface Dao<T> {
     void save(T t);
     void update(TrainingDTO t);
 
-    void delete(T t);
+    boolean delete(int id);
 }

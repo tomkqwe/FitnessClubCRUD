@@ -73,7 +73,15 @@ public class TrainingDaoImpl implements Dao<Training> {
     }
 
     @Override
-    public void delete(Training training) {
+    public boolean delete(int id) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(DELETE)) {
+            preparedStatement.setInt(1, id);
+            var i = preparedStatement.executeUpdate();
+            return i == 1;
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
 
     }
 

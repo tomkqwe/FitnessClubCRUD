@@ -8,8 +8,14 @@ public class TrainingRunner {
         var trainingDao = new TrainingDaoImpl();
 //        testGetAll(trainingDao);
 //        testGetById(trainingDao);
-        testUpdate(trainingDao);
+//        testUpdate(trainingDao);
+        testDelete(trainingDao);
 
+    }
+
+    private static void testDelete(TrainingDaoImpl trainingDao) {
+        var delete = trainingDao.delete(10);
+        System.out.println(delete);
     }
 
     private static void testUpdate(TrainingDaoImpl trainingDao) {
