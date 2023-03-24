@@ -10,18 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.lebedev.util.SQLUtils.SELECT_ALL;
+import static com.lebedev.util.SQLUtils.*;
 
 public class TrainingDaoImpl implements Dao<Training> {
 
     @Override
     public Optional<Training> get(int id) {
-        return Optional.empty();
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(SELECT_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            var resultSet = preparedStatement.executeQuery();
+            Training training = null;
+            if (resultSet.next()) {
+                training = buildTraining(resultSet);
+            }
+            return Optional.ofNullable(training);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
     }
 
     @Override
     public List<Training> getAll() {
-        try (var connection = ConnectionManager.getConnection();
+        try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(SELECT_ALL)) {
             var resultSet = preparedStatement.executeQuery();
             var trainings = new ArrayList<Training>();

@@ -13,6 +13,10 @@ public final class SQLUtils {
             join  fitness_club_db.schedule s on c.id = s.coach_id
                                     """;
 
+    public static final String SELECT_BY_ID = SELECT_ALL + """
+            WHERE t.id = ?;
+            """;
+
     private SQLUtils() {
     }
 }
