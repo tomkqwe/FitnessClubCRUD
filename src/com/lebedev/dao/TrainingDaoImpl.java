@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.lebedev.util.SQLUtils.*;
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class TrainingDaoImpl implements Dao<Training> {
 
@@ -50,7 +51,26 @@ public class TrainingDaoImpl implements Dao<Training> {
 
 
     @Override
-    public void save(Training training) {
+    public TrainingDTO save(TrainingDTO dto) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(INSERT, RETURN_GENERATED_KEYS)) {
+            preparedStatement.setInt(1, dto.getCoachId());
+            preparedStatement.setInt(2, dto.getSportId());
+            preparedStatement.setInt(3, dto.getClientId());
+            preparedStatement.setDouble(4, dto.getPrice());
+            preparedStatement.setInt(5, dto.getScheduleId());
+            preparedStatement.executeUpdate();
+            var resultSet = preparedStatement.getGeneratedKeys();
+            TrainingDTO resultDTO = null;
+            if (resultSet.next()) {
+                var id = resultSet.getInt("id");
+                resultDTO = new TrainingDTO(id, dto.getCoachId(), dto.getSportId(), dto.getClientId(), dto.getPrice(), dto.getScheduleId());
+            }
+            return resultDTO;
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+
 
     }
 
@@ -58,12 +78,12 @@ public class TrainingDaoImpl implements Dao<Training> {
     public void update(TrainingDTO dto) {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(UPDATE)) {
-            preparedStatement.setInt(1, dto.coachId());
-            preparedStatement.setInt(2, dto.sportId());
-            preparedStatement.setInt(3, dto.clientId());
-            preparedStatement.setDouble(4, dto.price());
-            preparedStatement.setInt(5, dto.scheduleId());
-            preparedStatement.setInt(6, dto.id());
+            preparedStatement.setInt(1, dto.getCoachId());
+            preparedStatement.setInt(2, dto.getSportId());
+            preparedStatement.setInt(3, dto.getClientId());
+            preparedStatement.setDouble(4, dto.getPrice());
+            preparedStatement.setInt(5, dto.getScheduleId());
+            preparedStatement.setInt(6, dto.getId());
             var i = preparedStatement.executeUpdate();
             System.out.println(i);
         } catch (SQLException e) {

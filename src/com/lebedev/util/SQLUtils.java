@@ -29,6 +29,10 @@ public final class SQLUtils {
             DELETE FROM fitness_club_db.traning
             WHERE id = ?;
             """;
+    public static final String INSERT = """
+            INSERT INTO fitness_club_db.traning(coach_id, sport_id, client_id, price, shedule_id)
+             VALUES (?,?,?,?,?);
+            """;
 
     private SQLUtils() {
     }

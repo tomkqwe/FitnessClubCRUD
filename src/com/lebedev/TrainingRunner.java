@@ -6,11 +6,17 @@ import com.lebedev.dto.TrainingDTO;
 public class TrainingRunner {
     public static void main(String[] args) {
         var trainingDao = new TrainingDaoImpl();
-//        testGetAll(trainingDao);
-//        testGetById(trainingDao);
-//        testUpdate(trainingDao);
+        testGetAll(trainingDao);
+        testGetById(trainingDao);
+        testUpdate(trainingDao);
         testDelete(trainingDao);
+        testInsert(trainingDao);
 
+    }
+
+    private static void testInsert(TrainingDaoImpl trainingDao) {
+        var save = trainingDao.save(new TrainingDTO(3, 3, 24, 8888, 3));
+        System.out.println(save);
     }
 
     private static void testDelete(TrainingDaoImpl trainingDao) {
@@ -25,7 +31,7 @@ public class TrainingRunner {
     }
 
     private static void testGetById(TrainingDaoImpl trainingDao) {
-        var training = trainingDao.get(10);
+        var training = trainingDao.get(32);
         System.out.println(training);
     }
 

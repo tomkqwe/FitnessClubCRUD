@@ -10,7 +10,8 @@ public interface Dao<T> {
 
     List<T> getAll();
 
-    void save(T t);
+    TrainingDTO save(TrainingDTO t);
+
     void update(TrainingDTO t);
 
     boolean delete(int id);
