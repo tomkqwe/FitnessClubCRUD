@@ -1,22 +1,29 @@
 package com.lebedev;
 
 import com.lebedev.dao.TrainingDaoImpl;
+import com.lebedev.dto.TrainingDTO;
 
 public class TrainingRunner {
     public static void main(String[] args) {
-        testGetAll();
-        testGetById();
+        var trainingDao = new TrainingDaoImpl();
+//        testGetAll(trainingDao);
+//        testGetById(trainingDao);
+        testUpdate(trainingDao);
 
     }
 
-    private static void testGetById() {
-        var trainingDao = new TrainingDaoImpl();
+    private static void testUpdate(TrainingDaoImpl trainingDao) {
+        var trainingDTO = new TrainingDTO(1, 3, 2, 21, 7777, 3);
+        trainingDao.update(trainingDTO);
+
+    }
+
+    private static void testGetById(TrainingDaoImpl trainingDao) {
         var training = trainingDao.get(10);
         System.out.println(training);
     }
 
-    private static void testGetAll() {
-        var trainingDao = new TrainingDaoImpl();
+    private static void testGetAll(TrainingDaoImpl trainingDao) {
         var all = trainingDao.getAll();
         System.out.println(all);
     }

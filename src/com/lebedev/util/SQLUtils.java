@@ -16,6 +16,15 @@ public final class SQLUtils {
     public static final String SELECT_BY_ID = SELECT_ALL + """
             WHERE t.id = ?;
             """;
+    public static final String UPDATE = """
+            UPDATE fitness_club_db.traning
+            SET coach_id = ?,
+            sport_id = ?,
+            client_id = ?,
+            price = ?,
+            shedule_id = ?
+            WHERE id = ?;
+            """;
 
     private SQLUtils() {
     }

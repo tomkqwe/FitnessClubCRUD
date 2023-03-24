@@ -1,5 +1,6 @@
 package com.lebedev.dao;
 
+import com.lebedev.dto.TrainingDTO;
 import com.lebedev.entity.Training;
 import com.lebedev.exception.DaoException;
 import com.lebedev.util.ConnectionManager;
@@ -54,7 +55,20 @@ public class TrainingDaoImpl implements Dao<Training> {
     }
 
     @Override
-    public void update(Training training, String[] params) {
+    public void update(TrainingDTO dto) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(UPDATE)) {
+            preparedStatement.setInt(1, dto.coachId());
+            preparedStatement.setInt(2, dto.sportId());
+            preparedStatement.setInt(3, dto.clientId());
+            preparedStatement.setDouble(4, dto.price());
+            preparedStatement.setInt(5, dto.scheduleId());
+            preparedStatement.setInt(6, dto.id());
+            var i = preparedStatement.executeUpdate();
+            System.out.println(i);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
 
     }
 
